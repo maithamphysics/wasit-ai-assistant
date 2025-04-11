@@ -165,7 +165,7 @@ if 'services' not in st.session_state:
             "Water Rights",
             "Crop Disease Reporting",
             "Market Access Programs",
-            "Rice Growing Advice"  # Added new service
+            "Rice Growing Advice"
         ],
         "Environmental": [
             "Water Conservation",
@@ -202,7 +202,7 @@ if 'environmental_data' not in st.session_state:
             "Heat Health Hotline": "+964 7XX XXX XXX",
             "Agricultural Support": "+964 7XX XXX XXX"
         },
-        "rice_growing": {  # Added rice growing data
+        "rice_growing": {
             "Al-Kut": {"planting": "April 15 - May 15", "harvest": "September - October", "variety": "Amber 33"},
             "Al-Hai": {"planting": "April 20 - May 20", "harvest": "September - October", "variety": "Najaf 1"},
             "Al-Aziziyah": {"planting": "May 1 - June 1", "harvest": "October - November", "variety": "Najaf 1"},
@@ -299,7 +299,7 @@ with st.sidebar:
 st.markdown("<h1 class='main-header'>Wasit AI Citizen Assistant</h1>", unsafe_allow_html=True)
 
 # Tabs for different sections
-tabs = ["Chat", "Water Resources", "Heat Safety", "Emergency Resources", "Agriculture"]  # Added Agriculture tab
+tabs = ["Chat", "Water Resources", "Heat Safety", "Emergency Resources", "Agriculture"]
 st.session_state.current_tab = st.radio("", tabs, horizontal=True)
 
 if st.session_state.current_tab == "Chat":
@@ -389,13 +389,113 @@ if st.session_state.current_tab == "Chat":
             st.rerun()
 
 elif st.session_state.current_tab == "Water Resources":
-    # ... [Previous Water Resources tab content remains the same] ...
+    st.markdown("<h2 class='sub-header'>Water Resources Information</h2>", unsafe_allow_html=True)
+    st.markdown("<div class='info-box'>Current water status: <strong>Shortage</strong> - Conservation measures in effect</div>", unsafe_allow_html=True)
+    
+    # Water schedule by district
+    st.markdown("### 💧 Water Distribution Schedule")
+    for district, schedule in st.session_state.environmental_data["water_schedule"].items():
+        st.markdown(f"**{district}:** {schedule}")
+    
+    # Conservation tips
+    st.markdown("### 🌱 Water Conservation Tips")
+    st.markdown("""
+    - Fix leaky faucets and pipes immediately
+    - Take shorter showers (5 minutes or less)
+    - Turn off taps while brushing teeth or shaving
+    - Only run full loads in washing machines and dishwashers
+    - Use a broom instead of a hose to clean outdoor areas
+    - Install water-efficient fixtures (aerators, low-flow showerheads)
+    - Collect rainwater for non-potable uses
+    - Water plants in early morning or evening to reduce evaporation
+    """)
+    
+    # Water calculator
+    st.markdown("### 🧮 Water Usage Calculator")
+    household_size = st.slider("Number of people in household", 1, 10, 4)
+    st.metric("Recommended Daily Water Allocation", f"{household_size * 50} liters")
 
 elif st.session_state.current_tab == "Heat Safety":
-    # ... [Previous Heat Safety tab content remains the same] ...
+    st.markdown("<h2 class='sub-header'>Heat Safety Information</h2>", unsafe_allow_html=True)
+    
+    # Current temperature warning
+    temp = st.session_state.environmental_data["current_temperature"]
+    st.markdown(f"<div class='alert-box'><strong>Current Temperature:</strong> {temp}°C - {st.session_state.environmental_data['heat_warning_level']} Level</div>", unsafe_allow_html=True)
+    
+    # Cooling centers
+    st.markdown("### 🏠 Cooling Centers")
+    for center in st.session_state.environmental_data["cooling_centers"]:
+        st.markdown(f"""
+        <div class='resource-card'>
+            <h4>{center['name']}</h4>
+            <p>📍 {center['address']}</p>
+            <p>🕒 {center['hours']}</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Heat safety tips
+    st.markdown("### ❄️ Heat Safety Tips")
+    st.markdown("""
+    **Hydration:**
+    - Drink 2-4 liters of water daily
+    - Avoid alcohol and caffeine
+    - Use oral rehydration solutions if sweating heavily
+    
+    **Clothing:**
+    - Wear loose, light-colored clothing
+    - Use wide-brimmed hats outdoors
+    - Apply sunscreen (SPF 30+) every 2 hours
+    
+    **Activity:**
+    - Limit outdoor activities between 11am-4pm
+    - Take frequent breaks in shade or AC
+    - Pace physical activities
+    
+    **Home:**
+    - Use fans and cross-ventilation
+    - Close curtains during hottest hours
+    - Take cool showers or baths
+    
+    **Vulnerable Groups:**
+    - Check on elderly neighbors daily
+    - Never leave children or pets in vehicles
+    - Ensure proper hydration for outdoor workers
+    """)
 
 elif st.session_state.current_tab == "Emergency Resources":
-    # ... [Previous Emergency Resources tab content remains the same] ...
+    st.markdown("<h2 class='sub-header'>Emergency Resources</h2>", unsafe_allow_html=True)
+    
+    # Emergency contacts
+    st.markdown("### 🚨 Emergency Contacts")
+    for service, number in st.session_state.environmental_data["emergency_contacts"].items():
+        st.markdown(f"**{service}:** `{number}`")
+    
+    # Emergency preparedness
+    st.markdown("### 🛡️ Emergency Preparedness")
+    st.markdown("""
+    **Heat Emergency Kit:**
+    - Water (4L per person per day)
+    - Oral rehydration salts
+    - Battery-powered fan
+    - Cooling towels
+    - First aid supplies
+    
+    **Water Shortage Kit:**
+    - Water storage containers
+    - Water purification tablets
+    - Non-perishable foods
+    - Paper plates/cups
+    
+    **Emergency Plan:**
+    - Know your nearest cooling center
+    - Identify water sources
+    - Have backup power for medical devices
+    - Keep important documents waterproofed
+    """)
+    
+    # Emergency map
+    st.markdown("### 🗺️ Emergency Services Map")
+    st.markdown("*Interactive map showing hospitals, cooling centers, and emergency services would appear here*")
 
 elif st.session_state.current_tab == "Agriculture":
     st.markdown("<h2 class='sub-header'>Agricultural Resources</h2>", unsafe_allow_html=True)
