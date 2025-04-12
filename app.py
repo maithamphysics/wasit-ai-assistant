@@ -276,8 +276,14 @@ with st.sidebar:
         st.session_state.chat_history.append({"role": "assistant", "content": ai_response})
         st.rerun()
     
+    # Updated language selector with proper accessibility
     st.markdown("### Language / اللغة")
-    language = st.radio("", ["English", "العربية"], horizontal=True)
+    language = st.radio(
+        "Language Selection",
+        ["English", "العربية"],
+        horizontal=True,
+        label_visibility="hidden"
+    )
     
     st.markdown("### Contact Information")
     st.markdown("📍 Al-Kut, Wasit Governorate, Iraq")
@@ -298,9 +304,14 @@ with st.sidebar:
 # Main content
 st.markdown("<h1 class='main-header'>Wasit AI Citizen Assistant</h1>", unsafe_allow_html=True)
 
-# Tabs for different sections
+# Updated main tabs radio with proper accessibility
 tabs = ["Chat", "Water Resources", "Heat Safety", "Emergency Resources", "Agriculture"]
-st.session_state.current_tab = st.radio("", tabs, horizontal=True)
+st.session_state.current_tab = st.radio(
+    "Main Navigation",
+    tabs,
+    horizontal=True,
+    label_visibility="hidden"
+)
 
 if st.session_state.current_tab == "Chat":
     # Introduction text
