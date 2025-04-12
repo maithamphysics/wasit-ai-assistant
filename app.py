@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
-from langchain.llms import OpenAI
+from langchain_community.llms import OpenAI
 from chatbot import WasitChatbot
 from datetime import datetime
 
